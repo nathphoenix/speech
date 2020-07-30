@@ -1,0 +1,41 @@
+.section{
+  display: inline-block;
+  margin: 5px;
+  padding: 20px;
+  width: 120px;
+  border: 6px solid #FF4A17;
+  background-color: whitesmoke;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.active_speech{
+  background-color: yellow !important;
+  color: #000 !important;
+}
+
+.section:nth-last-child(1) {
+  background: #15222B;
+  color: white;
+  font-weight: bolder;
+}
+
+.main_body {
+    margin-left:70px;
+}
+
+.word_sec_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 2222px;
+}
+
+.content {
+  outline: none;
+  border: none;
+  width:100%;
+  overflow: hidden;
+}
+
+

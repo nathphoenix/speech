@@ -1,0 +1,60 @@
+let g = ''
+function editSibling(e) {
+    e.target.innerHTML = 'Apply';
+    e.target.removeAttribute('class');
+    e.target.setAttribute('class', 'item-btn-save')
+    const allItemText = document.querySelectorAll('.item-text-data');
+    const parent = document.getElementById('item-holder')
+    let data = []
+
+    let input = document.createElement('input')
+
+    Array.from(allItemText).forEach((item) => {
+        data.push(item.innerHTML);
+    });
+
+    input.value = data.join(' ');
+    g = data.join(' ')
+    input.setAttribute('value', `${data.join(' ')}`)
+    input.setAttribute('id', 'data-capture')
+
+    while(parent.firstChild) {
+        parent.removeChild(parent.firstChild)
+    };
+
+    parent.appendChild(input);
+
+    const savebtn = document.querySelector('.item-btn-save');
+    savebtn.removeEventListener('click', editSibling)
+    savebtn.addEventListener('click', saveSiblings)
+
+    input.addEventListener('keyup', (e) => {
+        g = e.target.value
+    })
+}
+
+function saveSiblings(e) {
+    const input = document.getElementById('data-capture');
+    const parent = document.getElementById('item-holder')
+    let value = input.value || g;
+    e.target.innerHTML = 'Edit';
+    e.target.removeAttribute('class')
+    e.target.setAttribute('class', 'item-btn-edit');
+
+    const span = document.createElement('span');
+    span.innerHTML = value;
+    span.setAttribute('class', 'item-text-data')
+    while(parent.firstChild) {
+        parent.removeChild(parent.firstChild)
+    };
+
+    parent.appendChild(span);
+    const btn = document.querySelector('.item-btn-edit');
+
+    btn.removeEventListener('click', saveSiblings)
+    btn.addEventListener('click', editSibling)
+}
+
+
+const btn = document.querySelector('.item-btn-edit');
+btn.addEventListener('click', editSibling)

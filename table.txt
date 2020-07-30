@@ -1,0 +1,52 @@
+
+<table border="1">
+    {% for table in tables %}
+            {{colnames[loop.index]}}
+            {{ table|safe }}
+            <td>
+            <div id='options{{table.rowid}}'>
+                <button id='mutate{{table.rowid}}'>Edit</button>
+            </div>
+            </td>
+    {% endfor %}
+</table>
+
+        </div>
+    </div>
+
+
+<div id='options{{data.rowid}}'>
+    <button id='mutate{{data.rowid}}'>Edit</button>
+</div>
+
+
+
+ $(document).ready(function() {
+  $("div[id^='options']").on('click', 'button', function(){
+   var the_id = this.id.match('\\d+');
+   var the_type = this.id.match('[a-zA-Z]+');
+   if (the_type == "mutate"){
+    $('#options'+the_id).html('<button id="cancel'+the_id+'">Cancel</button>\n<button id="apply'+the_id+'">Apply</button>');
+    var current_cost = $('.cost'+the_id).text();
+    $('.cost'+the_id).html('\n<input type="text" class="newval'+the_id+'" value="'+current_cost+'">')
+   }
+   else if (the_type == 'cancel'){
+    $('#options'+the_id).html('<button id="mutate'+the_id+'">Edit</button>');
+   }
+   else{
+    var value = $(".newval"+the_id).val();
+    $.ajax({
+          url: "/update_cell",
+          type: "get",
+          data: {newval: value, rowid:the_id},
+          success: function(response) {
+            $('.cost'+the_id).html(value);
+            $('#options'+the_id).html('<button id="mutate'+the_id+'">Edit</button>');
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+          }
+       });
+     }
+   });
+ });

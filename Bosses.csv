@@ -1,0 +1,42 @@
+Words,Start_time,End_time
+my,"seconds: 1
+nanos: 100000000
+","seconds: 1
+nanos: 500000000
+"
+name,"seconds: 1
+nanos: 500000000
+","seconds: 2
+"
+is,"seconds: 2
+","seconds: 2
+nanos: 300000000
+"
+Mary,"seconds: 2
+nanos: 300000000
+","seconds: 2
+nanos: 800000000
+"
+and,"seconds: 2
+nanos: 800000000
+","seconds: 3
+nanos: 300000000
+"
+I'm,"seconds: 3
+nanos: 300000000
+","seconds: 3
+nanos: 400000000
+"
+24,"seconds: 3
+nanos: 400000000
+","seconds: 4
+"
+years,"seconds: 4
+","seconds: 4
+nanos: 200000000
+"
+old,"seconds: 4
+nanos: 200000000
+","seconds: 4
+nanos: 600000000
+"

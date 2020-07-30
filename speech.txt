@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>My First Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-3">
+            <label> Choose the plot type....</label>
+            <select class="form-control" id ='first_cat'>
+                <option value="Bar">Bar</option>
+                <option value="Scatter">Scatter</option>
+            </select>
+        </div>
+ <div class="col-md-6">
+    <table border="1">
+    {% for table in tables %}
+            {{colnames[loop.index]}}
+            {{ table|safe }}
+            <td>
+            <div id='options{{table.rowid}}'>
+                <button id='mutate{{table.rowid}}'>Edit</button>
+            </div>
+            </td>
+    {% endfor %}
+</table>
+
+<table>
+<tr>
+<td>Name</td>
+<td>Breed</td>
+<td>Age</td>
+</tr>
+{% for dog in dogs_list %}
+<tr>
+<td>{{ dog.name }}</td>
+<td>{{ dog.breed }}</td>
+<td>{{ dog.age }}</td>
+</tr>
+{% endfor %}
+</table>
+
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plots.js') }}"></script>
+<script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js') }}"></script>
+ <script>
+ $(document).ready(function() {
+  $("div[id^='options']").on('click', 'button', function(){
+   var the_id = this.id.match('\\d+');
+   var the_type = this.id.match('[a-zA-Z]+');
+   if (the_type == "mutate"){
+    $('#options'+the_id).html('<button id="cancel'+the_id+'">Cancel</button>\n<button id="apply'+the_id+'">Apply</button>');
+    var current_cost = $('.cost'+the_id).text();
+    $('.cost'+the_id).html('\n<input type="text" class="newval'+the_id+'" value="'+current_cost+'">')
+   }
+   else if (the_type == 'cancel'){
+    $('#options'+the_id).html('<button id="mutate'+the_id+'">Edit</button>');
+   }
+   else{
+    var value = $(".newval"+the_id).val();
+    $.ajax({
+          url: "/update_cell",
+          type: "get",
+          data: {newval: value, rowid:the_id},
+          success: function(response) {
+            $('.cost'+the_id).html(value);
+            $('#options'+the_id).html('<button id="mutate'+the_id+'">Edit</button>');
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+          }
+       });
+     }
+   });
+ });
+ </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Result Page</title>
+  <link href="{{ url_for('static',filename='img/bloverse.jpg') }}" rel="icon">
+  <link href="{{ url_for('static',filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <link href="{{ url_for('static',filename='css/bubbles.css') }}" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="bg-image">
+        <div class="main_body"></div>
+</div>
+<script>
+let main_container = document.querySelector('.main_body');
+  var words = {{tables|safe}}
+  console.log(words)
+  words.forEach((word) => {
+  let word_container = document.createElement('span');
+  let word_sec_container = document.createElement('span');
+  word_sec_container.setAttribute('class', 'word_sec_container')
+  word_container.setAttribute('class', 'container')
+  let span = document.createElement('span');
+  span.setAttribute('contenteditable', true);
+  span.setAttribute('class', 'content')
+  span.innerHTML = word;
+  word_sec_container.appendChild(span);
+  word_container.appendChild(word_sec_container);
+  main_container.appendChild(word_container)
+})
+
+</script>
+
+</body>
+</html>

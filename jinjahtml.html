@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Result Page</title>
+    <link href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ url_for('static',filename='css/bubbles.css') }}" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6" id='item-holder'>
+
+<div class="row">
+    {% for game in gamest %}
+       <div class="col-lg-3">
+                <div class="card card-inverse card-primary ">
+                  <div class="card-block">
+                    <div class="text-xs-center">
+                      <ul class="pagination">
+                    <p class="card-title"><b>{{ game['status2'] }}</b></p>
+                    <p class="card-title">{{ game['matchtype2'] }}</p>
+                    <p class="card-title">{{ game['teams2'] }}</p>
+                    {% if game['Batting team'] %}
+                    <p class="card-text">{{ game['Batting team'] }}<b>{{" "}}{{ game['runs10'] }}/{{ game['wickets10'] }}{{" "}}({{ game['overs10'] }}{{" "}}ov)</b></p>
+                    {% endif %}
+                    <p class="card-text">{{ game['name1'] }}{{" "}}<b>{{ game['runs1'] }}</b></p>
+                    <p class="card-text">{{ game['name2'] }}{{" "}}<b>{{ game['runs2'] }}</b></p>
+                    {% if game['name5'] %}
+                    <p class="card-text">{{ game['name5'] }}{{" "}}<b>({{ game['wickets5'] }}{{" "}}w)</b></p>
+                    {% endif %}
+                  </ul>
+                </div>
+                <div class="btn-group pull-right row">
+                  <div class="col-md-4"><a href="/Scorecard/{{ game["scorecardid"]}}" class="btn btn-primary btn-sm">Scorecard</a></div>
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4"><a href="/Commentary/{{ game["commentaryid"]}}" class="btn btn-primary btn-sm">Commentary</a></div>
+                   </div>
+                  </div>
+             </div>
+      </div>
+      {% endfor %}
+</div>
+</div>
+</body>
+</html>
